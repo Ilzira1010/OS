@@ -191,7 +191,6 @@ int args(int argc, char** argv){
  
 int main(int argc, char* argv[])
 {
-  setlocale(LC_TIME,"ru_RU.UTF-8");
   args(argc,argv);
  //processing directories & making list of filenames
   int count1 = 0;
@@ -205,12 +204,6 @@ int main(int argc, char* argv[])
      process_files(listdir1[i], listdir2[j]);
     }
   }
-  //memory releasing
-  for (int i = 0; i < count1; i++) {
-    free(listdir1[i]);}
-  for (int j = 0; j < count2; j++) {
-     free(listdir2[j]);
-    }
   free(listdir1);
   free(listdir2);
   fclose(outfile);
