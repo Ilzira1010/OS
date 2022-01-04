@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+#include <unistd.h>
 #define PATH_MAX 4096
 int main(int argc, char *argv[]){
 	FILE *file_first;
@@ -12,6 +14,24 @@ int main(int argc, char *argv[]){
 	snprintf(second, sizeof second, "%s%s", "./", argv[2]);
 	file_first = fopen(first, "r");
 	file_second = fopen(second, "w"); 
+	int rval;
+	int wval;
+	rval = access(first, R_OK);
+	if (rval == 0) {
+		printf("%s is readable ", first);
+	} else { 
+		printf("%s is not readable (access denied)", first);
+	}
+	
+	wval =access(second, W_OK);
+	
+	if (wval ==0) {
+		printf("%s is writable", second);
+	} else if (errno ==EACCES) {
+		printf("%s is not writable (access denied)", second);
+	} else if ( errno == EROFS) {
+		printf("%s is not writable (read-only filesystem)", second);
+	} 	
 
 	if (file_first == NULL) {
 		printf("Can't open the file_first");
@@ -38,3 +58,4 @@ int main(int argc, char *argv[]){
 		return -1;
 	} 
 }
+
