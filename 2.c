@@ -12,15 +12,16 @@ int main(int argc, char * argv[]){
 	}
 	
 	char key = ' ';
-	while (1) {
-		scanf(" %s", &key);
-		if (strcmp(&key, "!") == 0) {
+	int a;
+	while ((a=getc(stdin)) != EOF) {
+		if (a == '!') {
 			break;
 		}
 		if ((fputc((int) key, file)) == EOF) {
 			printf("Can't record to file");
 		return -1;
-			}
+		}
+		fputc((int)a, file);
 	}
 
 	if ((fclose(file)) != 0) {
